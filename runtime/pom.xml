@@ -21,6 +21,10 @@
             <artifactId>svm</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

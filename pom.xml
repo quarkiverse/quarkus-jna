@@ -22,6 +22,7 @@
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <quarkus.version>1.9.1.Final</quarkus.version>
         <compiler.plugin.version>3.8.1</compiler.plugin.version>
+        <jna.version>5.6.0</jna.version>
     </properties>
 
     <modules>
@@ -47,6 +48,11 @@
                 <groupId>io.quarkiverse.jna</groupId>
                 <artifactId>quarkus-jna-deployment</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>${jna.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
