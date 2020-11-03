@@ -40,6 +40,7 @@ nb-configuration.xml
 # Visual Studio Code
 .vscode
 .factorypath
+.vs
 
 # OSX
 .DS_Store
@@ -62,3 +63,23 @@ pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
 release.properties
+
+# Misc
+*~
+local-test
+out
+lib
+dependency-reduced-pom.xml
+.directory
+.java-version
+.graal-install
+dumps
+graph-output.dot
+ObjectStore
+docker/distroless/bazel-*
+/.apt_generated_tests/
+replay_*.logß
+nbactions.xml
+.cache
+/lsp/
+.jbang
