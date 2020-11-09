@@ -40,12 +40,10 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-
       - name: Configure Git author
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-
       - name: maven release ${{steps.metadata.outputs.current-version}}
         run: |
           gpg --quiet --batch --yes --decrypt --passphrase="${{secrets.GPG_PASSPHRASE}}" --output maven-settings.xml .github/release/maven-settings.xml.gpg
@@ -54,7 +52,6 @@ jobs:
           git checkout ${{github.base_ref}}
           git rebase release
           mvn -B release:perform -Darguments=-DperformRelease -Prelease -s maven-settings.xml
-
       - name: Push changes to ${{github.base_ref}}
         uses: ad-m/github-push-action@v0.6.0
         with:
