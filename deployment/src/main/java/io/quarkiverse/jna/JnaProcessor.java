@@ -37,7 +37,7 @@ public class JnaProcessor {
                     if (!proxiesCreated.contains(className.toString())) {
                         proxies.produce(new NativeImageProxyDefinitionBuildItem(className.toString()));
                         produceRecursiveProxies(index, className, proxies, proxiesCreated);
-                        LOGGER.warn("add proxy:" + className);
+                        //LOGGER.warn("add proxy:" + className);
                         proxiesCreated.add(className.toString());
                     }
                 });
@@ -50,8 +50,8 @@ public class JnaProcessor {
         IndexView index = combinedIndexBuildItem.getIndex();
         Set<String> proxiesCreated = new HashSet<>();
         // getAllKnownDirectImplementors skip interface, so I have to do it myself.
-        produceRecursiveProxies(index, DotName.createSimple("com.sun.jna.Library"), proxies, proxiesCreated);
-        produceRecursiveProxies(index, DotName.createSimple("com.sun.jna.Callback"), proxies, proxiesCreated);
+        //produceRecursiveProxies(index, DotName.createSimple("com.sun.jna.Library"), proxies, proxiesCreated);
+        //produceRecursiveProxies(index, DotName.createSimple("com.sun.jna.Callback"), proxies, proxiesCreated);
         proxies.produce(new NativeImageProxyDefinitionBuildItem("com.sun.jna.Library"));
         proxies.produce(new NativeImageProxyDefinitionBuildItem("com.sun.jna.Callback"));
         //proxies.produce(new NativeImageProxyDefinitionBuildItem("com.sun.jna.platform.win32.COM.util.IDispatch"));
@@ -62,27 +62,19 @@ public class JnaProcessor {
 
     @BuildStep
     public void runtimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInits) {
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem(""));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem(""));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem(""));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem(""));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem(""));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem(""));
+        //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Platform"));
+        //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Native"));
     }
 
     @BuildStep
     public void addReflections(CombinedIndexBuildItem combinedIndexBuildItem,
             BuildProducer<ReflectiveClassBuildItem> reflectiveItems) {
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.lang.invoke.MethodHandles$Lookup"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.lang.invoke.MethodHandles"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.lang.invoke.MethodHandle"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.lang.invoke.MethodType"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.lang.reflect.Method"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.nio.Buffer"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "com.sun.jna.Native"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.lang.Object"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.lang.Throwable"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "com.sun.jna.ptr.ByReference"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.reflect.Method"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.nio.Buffer"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.Native"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.Object"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.Throwable"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.ptr.ByReference"));
 
         IndexView index = combinedIndexBuildItem.getIndex();
         Set<ClassInfo> classInfos = index.getKnownClasses().stream()
