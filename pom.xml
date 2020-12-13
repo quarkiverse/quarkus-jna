@@ -21,6 +21,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <quarkus.version>1.10.3.Final</quarkus.version>
+        <graalvm.version>20.3.0</graalvm.version>
         <compiler.plugin.version>3.8.1</compiler.plugin.version>
         <jna.version>5.6.0</jna.version>
     </properties>
@@ -53,6 +54,16 @@
                 <groupId>net.java.dev.jna</groupId>
                 <artifactId>jna</artifactId>
                 <version>${jna.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.nativeimage</groupId>
+                <artifactId>svm</artifactId>
+                <version>${graalvm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.sdk</groupId>
+                <artifactId>graal-sdk</artifactId>
+                <version>${graalvm.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
