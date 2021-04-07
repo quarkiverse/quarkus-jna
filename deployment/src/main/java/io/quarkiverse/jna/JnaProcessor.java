@@ -74,6 +74,11 @@ public class JnaProcessor {
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.SunFontManager"));
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Platform"));
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Native"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.WindowPropertyGetter"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XWM"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11GraphicsConfig"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11InputMethodBase"));
+
     }
     @BuildStep
     public void addResources(BuildProducer<NativeImageResourcePatternsBuildItem> resources) {
