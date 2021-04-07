@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import io.quarkus.deployment.builditem.JniBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.JniRuntimeAccessBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.NativeImageResourcePatternsBuildItem;
 import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
 import org.jboss.jandex.IndexView;
@@ -71,6 +75,60 @@ public class JnaProcessor {
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Platform"));
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Native"));
     }
+    @BuildStep
+    public void addResources(BuildProducer<NativeImageResourcePatternsBuildItem> resources) {
+        resources.produce(NativeImageResourcePatternsBuildItem.builder()
+                .includePattern("\\\\QMETA-INF/services/jdk.vm.ci.hotspot.HotSpotJVMCIBackendFactory\\\\E")
+                .includePattern("\\\\QMETA-INF/services/jdk.vm.ci.services.JVMCIServiceLocator\\\\E")
+                .includePattern("\\\\Qcom/sun/jna/linux-x86-64/libjnidispatch.so\\\\E")
+        .build());
+    }
+
+    @BuildStep
+    public void addJniruntimeAccess(BuildProducer<JniRuntimeAccessBuildItem> jnis) {
+        jnis.produce(new JniRuntimeAccessBuildItem(true, true, false, false,
+                "com.sun.jna.Native",
+                "java.lang.Class",
+                "java.lang.reflect.Method",
+                "java.lang.String",
+                "java.nio.Buffer",
+                "java.nio.ByteBuffer",
+                "java.nio.CharBuffer",
+                "java.nio.ShortBuffer",
+                "java.nio.IntBuffer",
+                "java.nio.LongBuffer",
+                "java.nio.FloatBuffer",
+                "java.nio.DoubleBuffer",
+                "com.sun.jna.Structure$ByValue",
+                "com.sun.jna.WString",
+                "com.sun.jna.NativeMapped",
+                "com.sun.jna.IntegerType",
+                "com.sun.jna.PointerType",
+                "com.sun.jna.JNIEnv",
+                "com.sun.jna.Native$ffi_callback",
+                "com.sun.jna.FromNativeConverter",
+                "com.sun.jna.Callback",
+                "com.sun.jna.CallbackReference$AttachOptions",
+                "com.sun.jna.CallbackReference",
+                "com.sun.jna.Structure$FFIType",
+                "com.sun.jna.NativeLong",
+                "com.sun.jna.ptr.PointerByReference"));
+        jnis.produce(new JniRuntimeAccessBuildItem(true, true, true, true,
+                "java.lang.Void",
+                "java.lang.Boolean",
+                "java.lang.Byte",
+                "java.lang.Character",
+                "java.lang.Short",
+                "java.lang.Integer",
+                "java.lang.Long",
+                "java.lang.Float",
+                "java.lang.Double",
+                "com.sun.jna.Pointer",
+                "com.sun.jna.Structure",
+                "com.sun.jna.IntegerType",
+                "com.sun.jna.PointerType",
+                "com.sun.jna.Structure$FFIType$FFITypes"));
+    }
 
     @BuildStep
     public void addReflections(CombinedIndexBuildItem combinedIndexBuildItem,
@@ -78,9 +136,14 @@ public class JnaProcessor {
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.reflect.Method"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.nio.Buffer"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.Native"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.Object"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.Throwable"));
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.ptr.ByReference"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.CallbackReference"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.Klass"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.Structure"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.NativeLong"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.ptr.PointerByReference"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.ptr.IntByReference"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.util.Base64$Decoder"));
 
         IndexView index = combinedIndexBuildItem.getIndex();
         Set<ClassInfo> classInfos = index.getKnownClasses().stream()
