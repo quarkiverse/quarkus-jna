@@ -115,6 +115,7 @@
             <properties>
                 <quarkus.package.type>native</quarkus.package.type>
                 <reportErrorsAtRuntime>true</reportErrorsAtRuntime>
+                <quarkus.native.additional-build-args>--report-unsupported-elements-at-runtime</quarkus.native.additional-build-args>
             </properties>
         </profile>
     </profiles>
