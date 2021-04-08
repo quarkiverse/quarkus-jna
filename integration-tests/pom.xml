@@ -39,7 +39,10 @@
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jackson</artifactId>
+        </dependency>
         <!-- Minimal test dependencies to *-deployment artifacts for consistent build order -->
         <dependency>
             <groupId>io.quarkiverse.jna</groupId>
