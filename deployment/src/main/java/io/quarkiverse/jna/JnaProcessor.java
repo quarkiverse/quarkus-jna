@@ -78,6 +78,12 @@ public class JnaProcessor {
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XWM"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11GraphicsConfig"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11InputMethodBase"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.MotifDnDConstants"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XDnDConstants"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XSelection"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XWindow"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.StrikeCache"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.xr.XRBackendNative"));
 
     }
     @BuildStep
