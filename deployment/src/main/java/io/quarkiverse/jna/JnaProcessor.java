@@ -5,10 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import io.quarkus.deployment.builditem.JniBuildItem;
-import io.quarkus.deployment.builditem.nativeimage.JniRuntimeAccessBuildItem;
-import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
-import io.quarkus.deployment.builditem.nativeimage.NativeImageResourcePatternsBuildItem;
 import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
 import org.jboss.jandex.IndexView;
@@ -18,7 +14,9 @@ import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.JniRuntimeAccessBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.NativeImageResourcePatternsBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
 
@@ -86,13 +84,14 @@ public class JnaProcessor {
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.xr.XRBackendNative"));
 
     }
+
     @BuildStep
     public void addResources(BuildProducer<NativeImageResourcePatternsBuildItem> resources) {
         resources.produce(NativeImageResourcePatternsBuildItem.builder()
                 .includePattern("\\\\QMETA-INF/services/jdk.vm.ci.hotspot.HotSpotJVMCIBackendFactory\\\\E")
                 .includePattern("\\\\QMETA-INF/services/jdk.vm.ci.services.JVMCIServiceLocator\\\\E")
                 .includePattern("\\\\Qcom/sun/jna/linux-x86-64/libjnidispatch.so\\\\E")
-        .build());
+                .build());
     }
 
     @BuildStep
