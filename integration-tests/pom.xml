@@ -114,7 +114,8 @@
             </build>
             <properties>
                 <quarkus.package.type>native</quarkus.package.type>
-                <reportErrorsAtRuntime>true</reportErrorsAtRuntime>
+                <quarkus.native.report-errors-at-runtime>true</quarkus.native.report-errors-at-runtime>
+                <quarkus.native.additional-build-args>--trace-class-initialization=com.sun.jna.Native</quarkus.native.additional-build-args>
             </properties>
         </profile>
     </profiles>
