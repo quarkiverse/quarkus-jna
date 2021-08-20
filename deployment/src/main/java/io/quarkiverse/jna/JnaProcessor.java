@@ -85,8 +85,8 @@ public class JnaProcessor {
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.dnd.SunDropTargetContextPeer$EventDispatcher"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.FontManagerNativeLibrary"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.SunLayoutEngine"));
-        //runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.SurfaceData"));
-        //runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.pipe.Region"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.SurfaceData"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.pipe.Region"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.SunFontManager"));
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Platform"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.NativeLong"));
