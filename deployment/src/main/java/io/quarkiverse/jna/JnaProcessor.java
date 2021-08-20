@@ -46,6 +46,23 @@ public class JnaProcessor {
 
     }
 
+    private void produceRecursiveRuntimes(IndexView index,
+            DotName interfaceDN,
+            BuildProducer<RuntimeInitializedClassBuildItem> runtimeInits,
+            Set<String> runtimeItemsCreated) {
+        index.getKnownDirectImplementors(interfaceDN).stream()
+                .filter(classinfo -> Modifier.isInterface(classinfo.flags()))
+                .map(ClassInfo::name)
+                .forEach((className) -> {
+                    if (!runtimeItemsCreated.contains(className.toString())) {
+                        runtimeInits.produce(new RuntimeInitializedClassBuildItem(className.toString()));
+                        produceRecursiveRuntimes(index, className, runtimeInits, runtimeItemsCreated);
+                        //LOGGER.warn("add proxy:" + className);
+                        runtimeItemsCreated.add(className.toString());
+                    }
+                });
+    }
+
     @BuildStep
     void addProxies(CombinedIndexBuildItem combinedIndexBuildItem,
             BuildProducer<NativeImageProxyDefinitionBuildItem> proxies) {
@@ -63,7 +80,8 @@ public class JnaProcessor {
     }
 
     @BuildStep
-    public void runtimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInits) {
+    public void runtimeInitializedClasses(CombinedIndexBuildItem combinedIndexBuildItem,
+            BuildProducer<RuntimeInitializedClassBuildItem> runtimeInits) {
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.dnd.SunDropTargetContextPeer$EventDispatcher"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.FontManagerNativeLibrary"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.SunLayoutEngine"));
@@ -72,9 +90,10 @@ public class JnaProcessor {
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.SunFontManager"));
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Platform"));
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Native"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11GraphicsConfig"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.pipe.SpanClipRenderer"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.WindowPropertyGetter"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XWM"));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11GraphicsConfig"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11InputMethodBase"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.MotifDnDConstants"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XDnDConstants"));
@@ -82,7 +101,15 @@ public class JnaProcessor {
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XWindow"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.StrikeCache"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.xr.XRBackendNative"));
-
+        //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.platform.WindowUtils$Holder"));
+        //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.platform.KeyboardUtils"));
+        //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.platform.FileUtils$Holder"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Native"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.NativeLibrary"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Structure$FFIType"));
+        Set<String> runtimeItemsCreated = new HashSet<>();
+        IndexView index = combinedIndexBuildItem.getIndex();
+        produceRecursiveRuntimes(index, DotName.createSimple("com.sun.jna.Library"), runtimeInits, runtimeItemsCreated);
     }
 
     @BuildStep
