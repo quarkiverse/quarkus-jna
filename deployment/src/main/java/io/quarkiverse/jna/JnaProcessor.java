@@ -89,7 +89,7 @@ public class JnaProcessor {
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.pipe.Region"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.SunFontManager"));
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Platform"));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Native"));
+        runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.NativeLong"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11GraphicsConfig"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.pipe.SpanClipRenderer"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.WindowPropertyGetter"));
