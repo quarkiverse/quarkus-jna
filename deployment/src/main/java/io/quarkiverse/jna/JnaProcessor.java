@@ -175,6 +175,7 @@ public class JnaProcessor {
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.Native"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.Object"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.Throwable"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.ptr.ByReference"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.CallbackReference"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.Klass"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.Structure"));
