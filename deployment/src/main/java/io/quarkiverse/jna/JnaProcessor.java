@@ -173,6 +173,7 @@ public class JnaProcessor {
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.reflect.Method"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.nio.Buffer"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.Native"));
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.Object"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "java.lang.Throwable"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.CallbackReference"));
         reflectiveItems.produce(new ReflectiveClassBuildItem(true, true, "com.sun.jna.Klass"));
