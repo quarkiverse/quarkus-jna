@@ -34,7 +34,7 @@ jobs:
           ${{ runner.os }}-maven-
 
     - name: Build - JVM
-      run: mvn -B formatter:validate verify --file pom.xml
+      run: mvn -B package --file pom.xml
 
     - name: Build - Native
       run: mvn -B clean verify -Dnative
