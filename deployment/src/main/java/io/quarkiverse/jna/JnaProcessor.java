@@ -197,6 +197,17 @@ public class JnaProcessor {
                 .getAllKnownImplementors(DotName.createSimple("com.sun.jna.platform.win32.COM.util.IComEnum"))) {
             reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, classInfo.name().toString()));
         }
+        for (ClassInfo classInfo : index.getAllKnownImplementors(DotName.createSimple("java.awt.GraphicsConfiguration"))) {
+            reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, classInfo.name().toString()));
+        }
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.awt.Window"));
+        for (ClassInfo classInfo : index.getAllKnownSubclasses(DotName.createSimple("java.awt.Window"))) {
+            reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, classInfo.name().toString()));
+        }
+        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.awt.peer.ComponentPeer"));
+        for (ClassInfo classInfo : index.getAllKnownSubclasses(DotName.createSimple("java.awt.peer.ComponentPeer"))) {
+            reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, classInfo.name().toString()));
+        }
         for (ClassInfo classInfo : index.getAllKnownImplementors(DotName.createSimple("com.sun.jna.CallbackProxy"))) {
             reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, classInfo.name().toString()));
         }
