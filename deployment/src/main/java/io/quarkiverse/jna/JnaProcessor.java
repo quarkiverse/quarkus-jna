@@ -17,6 +17,7 @@ import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.JniRuntimeAccessBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourcePatternsBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.NativeImageSystemPropertyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
 
@@ -27,6 +28,11 @@ public class JnaProcessor {
     @BuildStep
     FeatureBuildItem feature() {
         return new FeatureBuildItem("jna");
+    }
+
+    @BuildStep
+    NativeImageSystemPropertyBuildItem removeAwt() {
+        return new NativeImageSystemPropertyBuildItem("java.awt.headless", "false");
     }
 
     void produceRecursiveProxies(IndexView index,
@@ -82,7 +88,6 @@ public class JnaProcessor {
     @BuildStep
     public void runtimeInitializedClasses(CombinedIndexBuildItem combinedIndexBuildItem,
             BuildProducer<RuntimeInitializedClassBuildItem> runtimeInits) {
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.dnd.SunDropTargetContextPeer$EventDispatcher"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.FontManagerNativeLibrary"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.SunLayoutEngine"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.SurfaceData"));
@@ -90,15 +95,7 @@ public class JnaProcessor {
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.SunFontManager"));
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.Platform"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.NativeLong"));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11GraphicsConfig"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.pipe.SpanClipRenderer"));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.WindowPropertyGetter"));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XWM"));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11InputMethodBase"));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.MotifDnDConstants"));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XDnDConstants"));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XSelection"));
-        runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.awt.X11.XWindow"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.font.StrikeCache"));
         runtimeInits.produce(new RuntimeInitializedClassBuildItem("sun.java2d.xr.XRBackendNative"));
         //runtimeInits.produce(new RuntimeInitializedClassBuildItem("com.sun.jna.platform.WindowUtils$Holder"));
@@ -198,17 +195,6 @@ public class JnaProcessor {
         }
         for (ClassInfo classInfo : index
                 .getAllKnownImplementors(DotName.createSimple("com.sun.jna.platform.win32.COM.util.IComEnum"))) {
-            reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, classInfo.name().toString()));
-        }
-        for (ClassInfo classInfo : index.getAllKnownImplementors(DotName.createSimple("java.awt.GraphicsConfiguration"))) {
-            reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, classInfo.name().toString()));
-        }
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.awt.Window"));
-        for (ClassInfo classInfo : index.getAllKnownSubclasses(DotName.createSimple("java.awt.Window"))) {
-            reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, classInfo.name().toString()));
-        }
-        reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, "java.awt.peer.ComponentPeer"));
-        for (ClassInfo classInfo : index.getAllKnownSubclasses(DotName.createSimple("java.awt.peer.ComponentPeer"))) {
             reflectiveItems.produce(new ReflectiveClassBuildItem(true, false, classInfo.name().toString()));
         }
         for (ClassInfo classInfo : index.getAllKnownImplementors(DotName.createSimple("com.sun.jna.CallbackProxy"))) {

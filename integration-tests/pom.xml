@@ -86,7 +86,6 @@
             <properties>
                 <quarkus.package.type>native</quarkus.package.type>
                 <quarkus.native.report-errors-at-runtime>true</quarkus.native.report-errors-at-runtime>
-                <quarkus.native.additional-build-args>-Djava.awt.headless=false</quarkus.native.additional-build-args>
             </properties>
         </profile>
     </profiles>
